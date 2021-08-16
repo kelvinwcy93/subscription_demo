@@ -1,8 +1,9 @@
 # subscription_demo
+Start up Springboot application by executing com.subs.demo.SubscriptionDemoApplication
 
 Endpoint : http://localhost:8080/generateInvoiceDate
 
-Request param:
+POST request param:
 
 DAILY
 
