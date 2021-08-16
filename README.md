@@ -4,7 +4,8 @@ Endpoint : http://localhost:8080/generateInvoiceDate
 
 Request param:
 
-####DAILY####
+DAILY
+
 {
     "amount":123.12,
     "type":"DAILY",
@@ -12,7 +13,8 @@ Request param:
     "endDate":"17/09/2022"
 }
 
-####WEEKLY####
+WEEKLY
+
 {
     "amount":123.12,
     "type":"WEEKLY",
@@ -22,7 +24,8 @@ Request param:
 }
 
 
-####MONTHLY####
+MONTHLY
+
 {
     "amount":123.12,
     "type":"MONTHLY",
