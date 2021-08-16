@@ -1,14 +1,11 @@
 package com.subs.demo.service;
 
 import java.time.DayOfWeek;
-import java.time.Instant;
 import java.time.LocalDate;
-import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
 import java.time.temporal.TemporalAdjusters;
 import java.util.ArrayList;
 import java.util.List;
-import java.util.TimeZone;
 
 import org.springframework.stereotype.Service;
 
@@ -19,7 +16,7 @@ import com.subs.demo.type.SubscriptionType;
 @Service
 public class SubscriptionService {
 	
-	DateTimeFormatter formatter = DateTimeFormatter.ofPattern("dd/MM/yyyy");
+	public static final DateTimeFormatter formatter = DateTimeFormatter.ofPattern("dd/MM/yyyy");
 
 	public SubscriptionOut generateInvoiceDate(SubscriptionIn in) {
 
@@ -39,13 +36,13 @@ public class SubscriptionService {
 		return out;
 	}
 	
-	private List<String> getInvoiceDate(SubscriptionType type, String day, LocalDate startDate, LocalDate endDate) {
+	public List<String> getInvoiceDate(SubscriptionType type, String day, LocalDate startDate, LocalDate endDate) {
 		List <String> invoiceDateList = new ArrayList<>();
 		LocalDate nextCycleDate = LocalDate.now();
 		
 		//set maximum time span within 3 month
 		if(startDate.plusMonths(3).compareTo(endDate)<0) {
-			endDate = startDate.plusMonths(3);
+			endDate = startDate.plusMonths(3).minusDays(1);//minus one day to exclude last day
 		}
 		
 		//get first cycle date
@@ -54,7 +51,11 @@ public class SubscriptionService {
 			nextCycleDate = startDate;
 			break;
 		case WEEKLY:
-			nextCycleDate = startDate.with(TemporalAdjusters.next(DayOfWeek.valueOf(day)));
+			if(startDate.getDayOfWeek().toString().equals(day)) {
+				nextCycleDate = startDate;
+			}else {
+				nextCycleDate = startDate.with(TemporalAdjusters.next(DayOfWeek.valueOf(day)));
+			}
 			break;
 		case MONTHLY:
 			LocalDate dayofMonth = startDate.withDayOfMonth(Integer.parseInt(day));
